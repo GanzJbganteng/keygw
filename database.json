@@ -1,5 +1,12 @@
 {
   "users": [
-    { "password": "rofik" }
+    {
+      "id": 7422905746,
+      "password": "pp"
+    },
+    {
+      "id": 987654321,
+      "password": "zenix"
+    }
   ]
 }
