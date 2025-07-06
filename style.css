@@ -13,7 +13,14 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,sans-serif;dis
 .sidebar.closed{transform:translateX(-100%)}
 .logo{font-size:1.3rem;font-weight:700}
 .sidebar nav ul{list-style:none;display:flex;flex-direction:column;gap:.7rem}
-.sidebar a{color:var(--text-muted);text-decoration:none;padding:.5rem .8rem;border-radius:var(--radius);transition:.3s}
+
+/* ⬇︎ tombol menu diperbesar di sini */
+.sidebar a{
+  color:var(--text-muted);text-decoration:none;
+  padding:1rem .9rem;          /* <— semula .5rem, kini 1rem */
+  font-size:1.05rem;           /* <— teks sedikit lebih besar */
+  height:52px;                 /* <— tinggi konsisten */
+  border-radius:var(--radius);transition:.3s;display:flex;align-items:center}
 .sidebar a.active,.sidebar a:hover{color:var(--text);background:rgba(255,255,255,.08)}
 #themeToggle{margin-top:auto;width:40px;height:40px;border-radius:50%;background:transparent;border:1px solid var(--border);color:var(--text);cursor:pointer}
 
