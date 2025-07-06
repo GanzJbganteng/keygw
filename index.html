@@ -1,32 +1,48 @@
-<!-- =========== index.html (hanya hapus menu & section Downloader) =========== -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Zenix RGP – Creator Rofik</title>
-  <link rel="stylesheet" href="style.css"><!-- pakai file CSS-mu yang lama -->
+
+  <!-- CSS eksternal -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body class="sidebar-closed">
 
-  <!-- ▸ SIDEBAR ------------------------------------------------------------- -->
+  <!-- ▸ SIDEBAR -->
   <aside id="side" class="sidebar closed">
     <div class="logo">Zenix RGP 🚀</div>
     <nav>
       <ul>
-        <li><a data-page="home" href="#" class="active">🏠 Home</a></li>
-        <li><a data-page="func" href="#">📦 Func Bug</a></li>
-        <li><a data-page="about" href="#">ℹ️ Tentang</a></li>
+        <!-- ✱ span.icon + emoji biar ukuran icon-nya di-control via CSS -->
+        <li>
+          <a href="#" data-page="home" class="active">
+            <span class="icon">🏠</span> Home
+          </a>
+        </li>
+        <li>
+          <a href="#" data-page="func">
+            <span class="icon">📦</span> Func Bug
+          </a>
+        </li>
+        <li>
+          <a href="#" data-page="about">
+            <span class="icon">ℹ️</span> Tentang
+          </a>
+        </li>
       </ul>
     </nav>
     <button id="themeToggle" aria-label="Theme">🌙</button>
   </aside>
 
+  <!-- tombol hamburger -->
   <button id="menuBtn" class="ham">☰</button>
 
-  <!-- ▸ CONTENT ------------------------------------------------------------- -->
+  <!-- ▸ MAIN CONTENT -->
   <main class="content">
-    <!-- Welcome -->
+
+    <!-- HOME -->
     <section id="homeSection" class="page">
       <header class="hero">
         <h1 class="glow-h1">WELCOME</h1>
@@ -34,21 +50,24 @@
       </header>
     </section>
 
-    <!-- Func Bug -->
+    <!-- FUNC BUG -->
     <section id="funcSection" class="page hidden">
       <h2 class="title-page">Func Bug Zone</h2>
       <div id="bugContainer" class="bug-list"></div>
     </section>
 
-    <!-- Tentang -->
+    <!-- ABOUT -->
     <section id="aboutSection" class="page hidden">
       <h2 class="title-page">Tentang</h2>
       <p>Hai! Saya <strong>Rofik</strong>, berbagi tool gratis untuk semua.</p>
     </section>
+
   </main>
 
+  <!-- Container toast -->
   <div id="toastContainer" class="toast-container"></div>
 
+  <!-- data bug + logic -->
   <script src="func.js"></script>
   <script src="script.js"></script>
 </body>
