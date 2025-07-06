@@ -1,59 +1,44 @@
-/* =========== script.js (tanpa downloader) =========== */
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ---- THEME ---- */
-  const themeBtn = document.getElementById("themeToggle");
-  if (themeBtn) {
-    if (localStorage.getItem("zenTheme") === "light") {
-      document.body.classList.add("light");
-      themeBtn.textContent = "☀️";
-    }
-    themeBtn.onclick = () => {
-      const l = document.body.classList.toggle("light");
-      themeBtn.textContent = l ? "☀️" : "🌙";
-      localStorage.setItem("zenTheme", l ? "light" : "dark");
-    };
-  }
+  /* ========== elemen dasar ========== */
+  const side   = document.getElementById("sidebar");
+  const hamBtn = document.querySelector(".ham");
+  const links  = document.querySelectorAll(".sidebar a");
+  const pages  = {
+    welcome : document.getElementById("welcome"),
+    func    : document.getElementById("func"),
+    about   : document.getElementById("about")
+  };
 
-  /* ---- SIDEBAR TOGGLE ---- */
-  const side = document.getElementById("side");
-  const ham  = document.getElementById("menuBtn");
-  ham.onclick = () => {
+  /* ========== sidebar toggle ========== */
+  window.toggleSidebar = function () {
     side.classList.toggle("closed");
     document.body.classList.toggle("sidebar-closed");
   };
 
-  /* ---- NAVIGATION ---- */
-  const pages = {
-    home : homeSection,
-    func : funcSection,
-    about: aboutSection
-  };
-
-  function show(key) {
-    Object.values(pages).forEach(sec => sec.classList.add("hidden"));
-    pages[key].classList.remove("hidden");
-    if (key === "func") renderBugs();
-    window.scrollTo({ top: 0 });
-  }
-
-  document.querySelectorAll("[data-page]").forEach(link => {
-    link.onclick = e => {
+  /* ========== nav click ========== */
+  links.forEach(a=>{
+    a.addEventListener("click", e=>{
       e.preventDefault();
-      document.querySelectorAll("[data-page]")
-        .forEach(a => a.classList.toggle("active", a === link));
-      show(link.dataset.page);
-      side.classList.add("closed");
-      document.body.classList.add("sidebar-closed");
-    };
+      links.forEach(l=>l.classList.toggle("active",l===a));
+      showPage(a.getAttribute("data-page"));
+      toggleSidebar();               // auto‐close setelah klik
+    });
   });
 
-  /* ---- FUNC BUG LIST ---- */
+  function showPage(key){
+    Object.values(pages).forEach(p=>p.classList.add("hidden"));
+    (pages[key]||pages.welcome).classList.remove("hidden");
+    if(key==="func") renderBugs();
+  }
+
+  /* ========== func bug list ========== */
+  const bugData = window.bugData || [];
   let rendered = false;
-  function renderBugs() {
-    if (rendered || typeof bugData === "undefined") return;
-    const wrap = document.getElementById("bugContainer");
-    bugData.forEach((b,i) => {
+  function renderBugs(){
+    if(rendered) return;
+    const wrap = document.getElementById("bugList");
+    bugData.forEach((b,i)=>{
       wrap.insertAdjacentHTML("beforeend",
         `<div class="bug">
            <span>${b.title}</span>
@@ -62,23 +47,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     rendered = true;
   }
-
   window.copyBug = i =>
     navigator.clipboard.writeText(atob(bugData[i].funcB64))
-      .then(() => toast("✅ Copied"))
-      .catch(() => toast("❌ Gagal Copy", true));
+      .then(()=>toast("✅ Copied"))
+      .catch(()=>toast("❌ Gagal copy",true));
 
-  /* ---- TOAST ---- */
-  function toast(msg, err=false) {
-    const box = document.getElementById("toastContainer");
-    const t   = document.createElement("div");
-    t.className = "toast";
-    if (err) t.style.borderLeftColor = "red";
-    t.textContent = msg;
-    box.appendChild(t);
-    setTimeout(() => { t.style.opacity = 0; setTimeout(() => t.remove(), 500); }, 2500);
+  /* ========== toast ========== */
+  function toast(msg,err=false){
+    const box=document.querySelector(".toast-container");
+    const d=document.createElement("div");d.className="toast";
+    if(err)d.style.borderLeftColor="red";
+    d.textContent=msg;box.appendChild(d);
+    setTimeout(()=>{d.style.opacity=0;setTimeout(()=>d.remove(),500)},2500);
   }
 
-  /* init */
-  show("home");
+  /* ========== lucide icons & init ========== */
+  lucide.createIcons();
+  // tutup sidebar di load pertama
+  side.classList.add("closed");
+  document.body.classList.add("sidebar-closed");
+  showPage("welcome");
 });
