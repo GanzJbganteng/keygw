@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Zenix RGP – Creator Rofik</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="sidebar-closed">
+
+  <!-- SIDEBAR -->
+  <aside id="side" class="sidebar closed">
+    <div class="logo">Zenix Web 🚀</div>
+    <nav>
+      <ul>
+        <li><a href="#" data-page="home"       class="active">🏠 Home</a></li>
+        <li><a href="#" data-page="func">📦 Func Bug</a></li>
+        <li><a href="#" data-page="downloader">⬇️ Downloader</a></li>
+        <li><a href="#" data-page="about">ℹ️ Tentang</a></li>
+      </ul>
+    </nav>
+    <button id="themeToggle">🌙</button>
+  </aside>
+
+  <!-- tombol ☰ -->
+  <button id="menuBtn" class="ham">☰</button>
+
+  <!-- CONTENT -->
+  <main class="content">
+    <section id="homeSection" class="page">
+      <header class="hero">
+        <h1 class="glow-h1">WELCOME</h1>
+        <p class="glow-sub">CREATOR ROFIK</p>
+      </header>
+    </section>
+
+    <section id="funcSection" class="page hidden">
+      <h2 class="title-page">Func Bug Zone</h2>
+      <div id="bugContainer" class="bug-list"></div>
+    </section>
+
+    <section id="downloaderSection" class="page hidden">
+      <h2 class="title-page">Downloader Center</h2>
+      <div class="dl-box">
+        <h3>🔗 TikTok MP4 / MP3</h3>
+        <input id="tiktokUrl" placeholder="Tempel URL TikTok…">
+        <button onclick="dlTikTok()">Download</button>
+        <div id="tiktokResult" class="dl-result"></div>
+      </div>
+    </section>
+
+    <section id="aboutSection" class="page hidden">
+      <h2 class="title-page">Tentang</h2>
+      <p>Hai! Saya <strong>Rofik</strong>, berbagi tool gratis untuk semua.</p>
+    </section>
+  </main>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="func.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
