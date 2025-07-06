@@ -1,8 +1,7 @@
-/* ========= script.js (tanpa fitur downloader) ========= */
-
+/* =========== script.js (tanpa downloader) =========== */
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ---------- THEME (jika tombol ada) ---------- */
+  /* ---- THEME ---- */
   const themeBtn = document.getElementById("themeToggle");
   if (themeBtn) {
     if (localStorage.getItem("zenTheme") === "light") {
@@ -10,32 +9,30 @@ document.addEventListener("DOMContentLoaded", () => {
       themeBtn.textContent = "☀️";
     }
     themeBtn.onclick = () => {
-      const light = document.body.classList.toggle("light");
-      themeBtn.textContent = light ? "☀️" : "🌙";
-      localStorage.setItem("zenTheme", light ? "light" : "dark");
+      const l = document.body.classList.toggle("light");
+      themeBtn.textContent = l ? "☀️" : "🌙";
+      localStorage.setItem("zenTheme", l ? "light" : "dark");
     };
   }
 
-  /* ---------- SIDEBAR TOGGLE (jika tombol ham ada) ---------- */
+  /* ---- SIDEBAR TOGGLE ---- */
   const side = document.getElementById("side");
   const ham  = document.getElementById("menuBtn");
-  if (ham && side) {
-    ham.onclick = () => {
-      side.classList.toggle("closed");
-      document.body.classList.toggle("sidebar-closed");
-    };
-  }
+  ham.onclick = () => {
+    side.classList.toggle("closed");
+    document.body.classList.toggle("sidebar-closed");
+  };
 
-  /* ---------- NAVIGASI ---------- */
+  /* ---- NAVIGATION ---- */
   const pages = {
-    home :  document.getElementById("home")      || document.getElementById("homeSection"),
-    func :  document.getElementById("funcbug")   || document.getElementById("funcSection"),
-    about:  document.getElementById("about")     || document.getElementById("aboutSection")
+    home : homeSection,
+    func : funcSection,
+    about: aboutSection
   };
 
   function show(key) {
-    Object.values(pages).forEach(p => p && p.classList.add("hidden"));
-    if (pages[key]) pages[key].classList.remove("hidden");
+    Object.values(pages).forEach(sec => sec.classList.add("hidden"));
+    pages[key].classList.remove("hidden");
     if (key === "func") renderBugs();
     window.scrollTo({ top: 0 });
   }
@@ -46,54 +43,42 @@ document.addEventListener("DOMContentLoaded", () => {
       document.querySelectorAll("[data-page]")
         .forEach(a => a.classList.toggle("active", a === link));
       show(link.dataset.page);
-      if (side) {
-        side.classList.add("closed");
-        document.body.classList.add("sidebar-closed");
-      }
+      side.classList.add("closed");
+      document.body.classList.add("sidebar-closed");
     };
   });
 
-  /* ---------- BUG LIST ---------- */
-  let bugsDrawn = false;
+  /* ---- FUNC BUG LIST ---- */
+  let rendered = false;
   function renderBugs() {
-    if (bugsDrawn || typeof bugData === "undefined") return;
+    if (rendered || typeof bugData === "undefined") return;
     const wrap = document.getElementById("bugContainer");
-    if (!wrap) return;
-    bugData.forEach((b, i) => {
-      wrap.insertAdjacentHTML(
-        "beforeend",
+    bugData.forEach((b,i) => {
+      wrap.insertAdjacentHTML("beforeend",
         `<div class="bug">
            <span>${b.title}</span>
            <button onclick="copyBug(${i})">Copy</button>
-         </div>`
-      );
+         </div>`);
     });
-    bugsDrawn = true;
+    rendered = true;
   }
 
-  window.copyBug = i => {
-    if (!bugData || !bugData[i]) return toast("Data tidak ada", true);
-    navigator.clipboard
-      .writeText(atob(bugData[i].funcB64))
+  window.copyBug = i =>
+    navigator.clipboard.writeText(atob(bugData[i].funcB64))
       .then(() => toast("✅ Copied"))
-      .catch(() => toast("❌ Gagal copy", true));
-  };
+      .catch(() => toast("❌ Gagal Copy", true));
 
-  /* ---------- TOAST ---------- */
-  function toast(msg, err = false) {
+  /* ---- TOAST ---- */
+  function toast(msg, err=false) {
     const box = document.getElementById("toastContainer");
-    if (!box) return alert(msg);
     const t   = document.createElement("div");
     t.className = "toast";
     if (err) t.style.borderLeftColor = "red";
     t.textContent = msg;
     box.appendChild(t);
-    setTimeout(() => {
-      t.style.opacity = 0;
-      setTimeout(() => t.remove(), 500);
-    }, 2500);
+    setTimeout(() => { t.style.opacity = 0; setTimeout(() => t.remove(), 500); }, 2500);
   }
 
-  /* ---------- INIT ---------- */
+  /* init */
   show("home");
 });
