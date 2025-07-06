@@ -1,86 +1,55 @@
+<!-- =========== index.html (hanya hapus menu & section Downloader) =========== -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Glow RGB Web</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: white;
-    }
-    .sidebar {
-      width: 200px;
-      height: 100vh;
-      background: linear-gradient(45deg, #0ff, #f0f, #0ff);
-      background-size: 600% 600%;
-      animation: glow 8s ease infinite;
-      position: fixed;
-      top: 0;
-      left: 0;
-      padding-top: 20px;
-      box-shadow: 2px 0 10px rgba(0,0,0,0.3);
-    }
-    @keyframes glow {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
-    .sidebar a {
-      display: block;
-      color: white;
-      text-decoration: none;
-      padding: 15px;
-      transition: background 0.3s;
-    }
-    .sidebar a:hover {
-      background: rgba(255,255,255,0.1);
-    }
-    .content {
-      margin-left: 200px;
-      padding: 20px;
-    }
-    .page {
-      display: none;
-    }
-    .page.active {
-      display: block;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Zenix RGP – Creator Rofik</title>
+  <link rel="stylesheet" href="style.css"><!-- pakai file CSS-mu yang lama -->
 </head>
-<body>
-  <div class="sidebar">
-    <a href="#" onclick="navigate('welcome')">Welcome</a>
-    <a href="#" onclick="navigate('funcbug')">Func Bug</a>
-    <a href="#" onclick="navigate('about')">Tentang</a>
-  </div>
+<body class="sidebar-closed">
 
-  <div class="content">
-    <div id="welcome" class="page active">
-      <h1>Selamat Datang</h1>
-      <p>Ini halaman welcome.</p>
-    </div>
+  <!-- ▸ SIDEBAR ------------------------------------------------------------- -->
+  <aside id="side" class="sidebar closed">
+    <div class="logo">Zenix RGP 🚀</div>
+    <nav>
+      <ul>
+        <li><a data-page="home" href="#" class="active">🏠 Home</a></li>
+        <li><a data-page="func" href="#">📦 Func Bug</a></li>
+        <li><a data-page="about" href="#">ℹ️ Tentang</a></li>
+      </ul>
+    </nav>
+    <button id="themeToggle" aria-label="Theme">🌙</button>
+  </aside>
 
-    <div id="funcbug" class="page">
-      <h1>Func Bug</h1>
-      <p>Berbagi script crash, bug, bypass, dan lainnya.</p>
-    </div>
+  <button id="menuBtn" class="ham">☰</button>
 
-    <div id="about" class="page">
-      <h1>Tentang</h1>
-      <p>Web ini dibuat oleh kamu, untuk membagikan eksperimen crash, UI, dan sejenisnya.</p>
-    </div>
-  </div>
+  <!-- ▸ CONTENT ------------------------------------------------------------- -->
+  <main class="content">
+    <!-- Welcome -->
+    <section id="homeSection" class="page">
+      <header class="hero">
+        <h1 class="glow-h1">WELCOME</h1>
+        <p class="glow-sub">CREATOR ROFIK</p>
+      </header>
+    </section>
 
-  <script>
-    function navigate(pageId) {
-      document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
-      });
-      document.getElementById(pageId).classList.add('active');
-    }
-  </script>
+    <!-- Func Bug -->
+    <section id="funcSection" class="page hidden">
+      <h2 class="title-page">Func Bug Zone</h2>
+      <div id="bugContainer" class="bug-list"></div>
+    </section>
+
+    <!-- Tentang -->
+    <section id="aboutSection" class="page hidden">
+      <h2 class="title-page">Tentang</h2>
+      <p>Hai! Saya <strong>Rofik</strong>, berbagi tool gratis untuk semua.</p>
+    </section>
+  </main>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="func.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
