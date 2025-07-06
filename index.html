@@ -2,73 +2,50 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>Zenix RGP – Creator Rofik</title>
-
-  <!-- CSS eksternal -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Project Bug & Tools</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="sidebar-closed">
+<body>
+  <button class="ham" onclick="toggleSidebar()">☰</button>
 
-  <!-- ▸ SIDEBAR -->
-  <aside id="side" class="sidebar closed">
-    <div class="logo">Zenix RGP 🚀</div>
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">My Tools</div>
     <nav>
       <ul>
-        <!-- ✱ span.icon + emoji biar ukuran icon-nya di-control via CSS -->
-        <li>
-          <a href="#" data-page="home" class="active">
-            <span class="icon">🏠</span> Home
-          </a>
-        </li>
-        <li>
-          <a href="#" data-page="func">
-            <span class="icon">📦</span> Func Bug
-          </a>
-        </li>
-        <li>
-          <a href="#" data-page="about">
-            <span class="icon">ℹ️</span> Tentang
-          </a>
-        </li>
+        <li><a href="#welcome" class="active"><i data-lucide="home"></i> Welcome</a></li>
+        <li><a href="#func"><i data-lucide="bug"></i> Func Bug</a></li>
+        <li><a href="#about"><i data-lucide="info"></i> Tentang</a></li>
       </ul>
     </nav>
-    <button id="themeToggle" aria-label="Theme">🌙</button>
+    <button id="themeToggle">🌓</button>
   </aside>
 
-  <!-- tombol hamburger -->
-  <button id="menuBtn" class="ham">☰</button>
-
-  <!-- ▸ MAIN CONTENT -->
   <main class="content">
-
-    <!-- HOME -->
-    <section id="homeSection" class="page">
-      <header class="hero">
-        <h1 class="glow-h1">WELCOME</h1>
-        <p class="glow-sub">CREATOR ROFIK</p>
-      </header>
+    <section id="welcome" class="page">
+      <div class="hero">
+        <h1 class="glow-h1">Selamat Datang</h1>
+        <p class="glow-sub">Web Tools & Bug Crash Center</p>
+      </div>
     </section>
 
-    <!-- FUNC BUG -->
-    <section id="funcSection" class="page hidden">
-      <h2 class="title-page">Func Bug Zone</h2>
-      <div id="bugContainer" class="bug-list"></div>
+    <section id="func" class="page hidden">
+      <h2 class="title-page">Func Bug Crash</h2>
+      <div class="bug-list" id="bugList">
+        <!-- Bug list here -->
+      </div>
     </section>
 
-    <!-- ABOUT -->
-    <section id="aboutSection" class="page hidden">
+    <section id="about" class="page hidden">
       <h2 class="title-page">Tentang</h2>
-      <p>Hai! Saya <strong>Rofik</strong>, berbagi tool gratis untuk semua.</p>
+      <p>Tools ini dibuat untuk sharing script func bug, tools sederhana, dan lainnya. Build by kamu 😎</p>
     </section>
-
   </main>
 
-  <!-- Container toast -->
-  <div id="toastContainer" class="toast-container"></div>
-
-  <!-- data bug + logic -->
-  <script src="func.js"></script>
   <script src="script.js"></script>
+  <script>
+    lucide.createIcons(); // activate Lucide icons
+  </script>
 </body>
 </html>
