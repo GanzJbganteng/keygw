@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ===== elemen ===== */
   const sidebar = document.getElementById("sidebar");
   const links   = document.querySelectorAll(".sidebar a");
   const pages   = {
@@ -9,13 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
     about   : document.getElementById("about")
   };
 
-  /* ===== sidebar toggle ===== */
+  /* sidebar toggle */
   window.toggleSidebar = () => {
     sidebar.classList.toggle("closed");
     document.body.classList.toggle("sidebar-closed");
   };
 
-  /* ===== nav klik ===== */
+  /* nav click */
   links.forEach(a=>{
     a.addEventListener("click",e=>{
       e.preventDefault();
@@ -31,36 +30,34 @@ document.addEventListener("DOMContentLoaded", () => {
     if(key==="func") renderBugs();
   }
 
-  /* ===== render bug ===== */
-  let rendered=false;
+  /* render bug list */
   function renderBugs(){
-    if(rendered) return;
-    if(!window.bugData){toast("bugData kosong",true);return;}
-    const wrap=document.getElementById("bugList");
+    if(document.getElementById("bugList").children.length) return;
+    if(!window.bugData || !bugData.length){toast("⚠️ bugData kosong",true);return;}
+    const wrap = document.getElementById("bugList");
     bugData.forEach((b,i)=>{
       wrap.insertAdjacentHTML("beforeend",
         `<div class="bug"><span>${b.title}</span>
          <button onclick="copyBug(${i})">Copy</button></div>`);
     });
-    rendered=true;
   }
   window.copyBug = i =>
     navigator.clipboard.writeText(atob(bugData[i].funcB64))
       .then(()=>toast("✅ Copied"))
       .catch(()=>toast("❌ Gagal copy",true));
 
-  /* ===== theme toggle ===== */
+  /* theme toggle */
   const themeBtn=document.getElementById("themeToggle");
   if(localStorage.getItem("zenTheme")==="light"){
     document.body.classList.add("light");themeBtn.textContent="☀️";
   }
   themeBtn.onclick=()=>{
     const light=document.body.classList.toggle("light");
-    themeBtn.textContent= light ? "☀️" : "🌓";
+    themeBtn.textContent = light ? "☀️" : "🌓";
     localStorage.setItem("zenTheme", light ? "light" : "dark");
   };
 
-  /* ===== toast util ===== */
+  /* toast helper */
   function toast(msg,err=false){
     const box=document.querySelector(".toast-container")||createBox();
     const d=document.createElement("div");d.className="toast";
@@ -75,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return c;
   }
 
-  /* ===== init ===== */
+  /* init */
   lucide.createIcons();
   showPage("welcome");
 });
