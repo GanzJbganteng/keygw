@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  /* theme */
+  /* ==== THEME ==== */
   const themeBtn = document.getElementById("themeToggle");
   if (localStorage.getItem("zenTheme") === "light") {
     document.body.classList.add("light");
@@ -11,19 +11,19 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("zenTheme", light ? "light" : "dark");
   };
 
-  /* sidebar toggle */
+  /* ==== SIDEBAR TOGGLE ==== */
   const side = document.getElementById("side");
   document.getElementById("menuBtn").onclick = () => {
     side.classList.toggle("closed");
     document.body.classList.toggle("sidebar-closed");
   };
 
-  /* navigation */
+  /* ==== NAVIGATION ==== */
   const pages = {
-    home: document.getElementById("homeSection"),
-    func: document.getElementById("funcSection"),
-    downloader: document.getElementById("downloaderSection"),
-    about: document.getElementById("aboutSection")
+    home       : document.getElementById("homeSection"),
+    func       : document.getElementById("funcSection"),
+    downloader : document.getElementById("downloaderSection"),
+    about      : document.getElementById("aboutSection")
   };
   function show(key) {
     Object.values(pages).forEach(p => p.classList.add("hidden"));
@@ -41,17 +41,19 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   });
 
-  /* func bug */
+  /* ==== FUNC BUG ==== */
   let rendered = false;
   function renderBugs() {
     if (rendered || typeof bugData === "undefined") return;
     const wrap = document.getElementById("bugContainer");
     bugData.forEach((b, i) => {
-      wrap.insertAdjacentHTML("beforeend",
+      wrap.insertAdjacentHTML(
+        "beforeend",
         `<div class="bug">
            <span>${b.title}</span>
            <button onclick="copyBug(${i})">Copy</button>
-         </div>`);
+         </div>`
+      );
     });
     rendered = true;
   }
@@ -60,21 +62,42 @@ document.addEventListener("DOMContentLoaded", () => {
       .then(() => toast("Copied"))
       .catch(() => toast("Fail", true));
 
-  /* downloader demo */
-  window.dlTikTok = () => {
+  /* ==== TikTok REAL DOWNLOADER via tikwm.com ==== */
+  window.dlTikTok = async () => {
     const url = document.getElementById("tiktokUrl").value.trim();
     const out = document.getElementById("tiktokResult");
     if (!url) return toast("Masukkan URL!", true);
+
     out.textContent = "Mengambil…";
-    setTimeout(() => {
-      out.innerHTML = "<em>Demo berhasil (link palsu)</em>";
+    try {
+      /* proxy bebas-CORS */
+      const api = "https://r.jina.ai/http://www.tikwm.com/api/?" +
+                  "count=12&cursor=0&web=1&hd=1&url=" +
+                  encodeURIComponent(url);
+      const json = await fetch(api).then(r => r.json());
+      const d    = json.data;
+
+      const mp4  = "https://www.tikwm.com" + (d.hdplay || d.play);
+      out.innerHTML = `
+        <video src="${mp4}" controls style="max-width:100%;border-radius:8px"></video><br>
+        <a href="${mp4}" target="_blank">⬇️ Download MP4 (${d.hd_size || d.size})</a>
+        <p style="margin-top:.4rem">
+          ❤️ ${d.digg_count.toLocaleString()} &nbsp;
+          💬 ${d.comment_count.toLocaleString()} &nbsp;
+          🔄 ${d.share_count.toLocaleString()}
+        </p>`;
       toast("Berhasil!");
-    }, 1200);
+    } catch (err) {
+      console.error(err);
+      out.textContent = "Gagal mengambil video.";
+      toast("❌ Error TikTok", true);
+    }
   };
 
+  /* ==== TOAST ==== */
   function toast(msg, err = false) {
     const box = document.getElementById("toastContainer");
-    const d = document.createElement("div");
+    const d   = document.createElement("div");
     d.className = "toast";
     if (err) d.style.borderLeftColor = "red";
     d.textContent = msg;
@@ -85,5 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2500);
   }
 
+  /* init */
   show("home");
 });
